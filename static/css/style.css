@@ -32,3 +32,29 @@ a{
     padding: 2px;
     border-radius: 5px;
 }
+
+.card-image-top.product-img {
+    width: 300px !important;
+    height: 300px !important;
+    object-fit: cover;
+}
+
+.pic-box {
+    position: relative;
+}
+
+.hot {
+    background-color: orangered;
+    color: white;
+    width: 75px;
+    text-align: center;
+    font-weight: bold;
+    display: inline;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    left:10px;
+    z-index: 10;
+}

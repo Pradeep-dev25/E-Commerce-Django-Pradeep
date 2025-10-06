@@ -1,55 +1,60 @@
 {% extends 'shop/layouts/main.html' %}
-
-{% block title %}Shopping Cart{% endblock title %}
-
+{% block title %}
+  Registration | ShopKart
+{% endblock title %}
 {% block content %}
-<div class="container my-5">
-    <h1 class="mb-4">Your Cart</h1>
-    <div class="row">
-        <!-- Cart Items Section -->
-        <div class="col-md-8">
-            <table class="table table-bordered">
-                <thead class="table-light">
-                    <tr>
-                        <th>Product</th>
-                        <th>Image</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                        <th>Remove</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Example static items -->
-                    <tr>
-                        <td>Sample Product 1</td>
-                        <td><img src="https://via.placeholder.com/70" alt="Product 1"></td>
-                        <td>2</td>
-                        <td>₹500</td>
-                        <td>₹1000</td>
-                        <td><button class="btn btn-danger btn-sm">Remove</button></td>
-                    </tr>
-                    <tr>
-                        <td>Sample Product 2</td>
-                        <td><img src="https://via.placeholder.com/70" alt="Product 2"></td>
-                        <td>1</td>
-                        <td>₹300</td>
-                        <td>₹300</td>
-                        <td><button class="btn btn-danger btn-sm">Remove</button></td>
-                    </tr>
-                </tbody>
-            </table>
+  <section class="bg-light py-4 my-5" style="min-height:600px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="mb-3">Cart  Items</h4>
+          <hr style="border-color:#b8bfc2;">
         </div>
+      
+        <table>
+            <tr>
+                <th>Image</th>
+                <th>Product Name</th>
+                <th>Unit</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+                <th>Remove</th>
+            </tr>
+          
 
-        <!-- Cart Summary Section -->
-        <div class="col-md-4">
-            <div class="card p-3 shadow-sm">
-                <h4>Summary</h4>
-                <p><strong>Total Items:</strong> 3</p>
-                <p><strong>Total Price:</strong> ₹1300</p>
-                <a href="#" class="btn btn-success w-100">Proceed to Checkout</a>
-            </div>
-        </div>
-    </div>
-</div>
+            {% for item in cart %}
+           <tr>
+              <td><img src="{{item.product.product_image.url}}" height="75px" alt="{{item.product.name}}"></td>
+              <td>{{item.product.name}}</td>
+              <td>{{item.product.selling_price | stringformat:'d'}}</td>
+              <td>{{item.product_qty}}</td>
+              <td class="amt">{{item.total_cost | stringformat:'d'}}</td>
+              <td><a href="{% url 'remove_cart' item.id %}"  onclick="return confirm('Are you sure? to Remove')"  class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Remove</a></td>
+            </tr>
+            {% endfor %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td colspan="2"><b>Total Amount</b></td>
+              <th id="net">0</th>
+              <td><button class="btn btn-primary btn-sm">
+                <i class="fa fa-check-circle"></i> Check Out
+              </button></td>
+            </tr>
+           
+        </table>
+       
+      </div>
+      </div>
+  </section>
+
+  <script>
+    const nodes = document.querySelectorAll('.amt');
+    const arr = Array.from(nodes);
+    const res = arr.reduce((acc, curr) => {
+     return acc += Number(curr.textContent)
+    }, 0);
+    document.getElementById("net").innerHTML="Rs : "+res;
+
+  </script>
 {% endblock content %}
